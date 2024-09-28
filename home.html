@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UMETA</title>
+    <link rel="icon" type="image/x-icon" href="file:///C:/Users/chenm/OneDrive/%E6%A1%8C%E9%9D%A2/UMETA.WEB(NEW)/Logo/1bae01658e06dafe3c9a6abe01663e8b7a8a49a30af7f37078fe944cf6797638.webp">
+    <style>
+        body {
+            margin: 0;
+            padding: 2vw;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        .nav-container {
+            background-color: #ffffff;
+            padding: 1vw;
+            border-radius: 2vw;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 0.4vw 0.6vw rgba(0, 0, 0, 0.1);
+        }
+        .logo-area {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+        .button-bar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            flex-grow: 1;
+            padding: 0 1vw;
+        }
+        .auth-buttons {
+            display: flex;
+            align-items: center;
+        }
+        .button, .auth-button {
+            background-color: #e0e0e0;
+            color: #333;
+            border: none;
+            padding: 1vw 2vw;
+            margin: 0.5vw;
+            border-radius: 2vw;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 1em;
+            position: relative;
+            overflow: hidden;
+            font-weight: 600;
+            display: inline-block;
+            text-decoration: none;
+            text-align: center;
+        }
+        .auth-button {
+            background-color: #87CEFA;
+            color: white;
+        }
+        .button:hover, .auth-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .button:active, .auth-button:active {
+            transform: translateY(1px);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        .button::before, .auth-button::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .button:active::before, .auth-button:active::before {
+            opacity: 1;
+        }
+
+        /* 輪播欄樣式 */
+        .carousel-container {
+            width: 54%;
+            max-width: 648px;
+            margin: 1.2vw auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .carousel {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .carousel img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .prev, .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 0.54vw 0.8vw;
+            cursor: pointer;
+            font-size: 9.6px;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .prev:hover, .next:hover {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .prev {
+            left: 10px;
+        }
+
+        .next {
+            right: 10px;
+        }
+
+        @media screen and (max-width: 768px) {
+            body {
+                font-size: 14px;
+            }
+            .logo-area {
+                width: 40px;
+                height: 40px;
+            }
+            .button, .auth-button {
+                padding: 1.5vw 3vw;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            body {
+                font-size: 12px;
+            }
+            .nav-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .logo-area {
+                align-self: center;
+                margin-bottom: 1vw;
+            }
+            .button-bar, .auth-buttons {
+                justify-content: center;
+                width: 100%;
+            }
+            .button, .auth-button {
+                padding: 2vw 4vw;
+                margin: 1vw;
+                flex-grow: 1;
+            }
+        }
+
+        /* 新添加的背景色塊樣式 */
+        .background-block {
+            width: 100%;
+            height: 100px;
+            background-color: #f5f5f5;
+            margin: 20px 0;
+        }
+
+        .background-card {
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 1vw;
+            padding: 1vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .background-card .Terms-button {
+            background-color: #90EE90; /* 淺綠色 */
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px; /* 增加弧度 */
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 1em;
+            font-weight: 600;
+            margin-top: 10px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .background-card .Terms-button:hover {
+            background-color: #7CFC00; /* 鼠標懸停時稍微變亮 */
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .background-card .Terms-button:active {
+            transform: translateY(1px);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 新添加的創始人/CEO區塊樣式 */
+        .founder-section {
+            display: flex;
+            align-items: flex-start;
+            margin: 2vw auto;
+            max-width: 80%;
+            background-color: #ffffff;
+            border-radius: 1vw;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 2vw;
+        }
+
+        .founder-image {
+            flex: 0 0 200px;
+            margin-right: 2vw;
+        }
+
+        .founder-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 1vw;
+        }
+
+        .founder-text {
+            flex: 1;
+            text-align: left;
+        }
+
+        .founder-text h3 {
+            font-size: 24px;
+            margin-bottom: 1vw;
+        }
+
+        .founder-text p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        @media screen and (max-width: 768px) {
+            .founder-section {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .founder-image {
+                margin-right: 0;
+                margin-bottom: 2vw;
+            }
+
+            .founder-text {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-container">
+        <div class="logo-area">
+            <img src="file:///C:/Users/chenm/OneDrive/%E6%A1%8C%E9%9D%A2/UMETA.WEB(NEW)/Logo/1bae01658e06dafe3c9a6abe01663e8b7a8a49a30af7f37078fe944cf6797638.webp" alt="UMETA Logo" style="width: 100%; height: 100%; object-fit: contain;">
+        </div>
+        <div class="button-bar">
+            <a href="#" class="button">Home</a>
+            <a href="https://www.roblox.com/games/13900609638/UMETA-BETA-1-4-2" class="button">Metaverse</a>
+            <a href="#" class="button">Shop</a>
+            <a href="#" class="button">Mint</a>
+            <a href="https://discord.gg/uUxmcEEy9q" class="button">Discord</a>
+        </div>
+        <div class="auth-buttons">
+            <a href="#" class="auth-button">Register</a>
+            <a href="#" class="auth-button">Login</a>
+        </div>
+    </div>
+
+    <p style="font-size: 60px;text-align:center;">Metaverse allows you to have a beautiful and convenient life</p>
+
+    <!-- 輪播欄 -->
+    <div class="carousel-container">
+        <div class="carousel">
+            <img src="file:///C:/Users/chenm/OneDrive/%E6%A1%8C%E9%9D%A2/UMETA.WEB(NEW)/Event/add61b97dcc80e0f.jpg" alt="Activity 1">
+            <img src="file:///C:/Users/chenm/OneDrive/%E6%A1%8C%E9%9D%A2/UMETA.WEB(NEW)/Event/IMG_1132.jpg" alt="Activity 2">
+            <img src="file:///C:/Users/chenm/OneDrive/%E6%A1%8C%E9%9D%A2/UMETA.WEB(NEW)/Event/IMG_1085.jpg" alt="Activity 3">
+            <!-- 可以根據需要添加更多圖片 -->
+        </div>
+        <button class="prev">❮</button>
+        <button class="next">❯</button>
+    </div>
+
+    <p style="font-size: 30px; text-align:center; font-weight: bold; color: #87CEFA;">Let's Check out what events are happening right now!</p>
+
+    <!-- 新添加的背景色塊 -->
+    <div class="background-block"></div>
+
+    <p style="font-size: 50px; text-align:center; font-weight: bold; color: #000000;">What is UMETA?</p>
+
+    <p style="font-size: 35px; text-align:center; font-weight: bold; color: #afafaf;">UMETA's mission is to construct a breathtaking 3D Web3 social software, encompassing social interactions, shopping, virtual housing, land ownership, and more. Whether you're a web3 guru or a web2 novice, UMETA warmly invites you to embark on this fantastical journey into the world of web3! 
+    </p>
+
+    <div class="background-block"></div>
+
+    <p style="font-size: 50px; text-align:center; font-weight: bold; color: #000000;">About our Founder/CEO</p>
+
+    <!-- 新添加的創始人/CEO區塊 -->
+    <div class="founder-section">
+        <div class="founder-image">
+            <!-- 這裡放置正方形圖片 -->
+            <img src="file:///C:/Users/chenm/OneDrive/%E6%A1%8C%E9%9D%A2/UMETA.WEB(NEW)/Logo/IMG_0240.jpg" alt="Founder/CEO">
+        </div>
+        <div class="founder-text">
+            <h3>Founder/CEO: Mike Chen(Ulun)</h3>
+            <p>Our Founder/CEO, at the age of 16, was driven by a passion for the Metaverse, Web3, and blockchain. This passion led to the establish of UMETA, a Metaverse brand designed to provide convenience, immersion, and joy to people.</p>
+        </div>
+    </div>
+    <div class="background-block"></div>
+
+    <div class="background-card">
+        <p style="text-align:center;"><img width="100" height="100"
+            src="file:///C:/Users/chenm/OneDrive/%E6%A1%8C%E9%9D%A2/UMETA.WEB(NEW)/Logo/1bae01658e06dafe3c9a6abe01663e8b7a8a49a30af7f37078fe944cf6797638.webp"></p>
+
+        <h5 style="text-align:center;color:rgb(145, 145, 145);">Copyright ©2024 UMETA, All rights reserved.</h5>
+
+
+        <a href="#" class="Terms-button">Terms</a>
+
+    </div>
+
+    <script>
+        const carousel = document.querySelector('.carousel');
+        const prevBtn = document.querySelector('.prev');
+        const nextBtn = document.querySelector('.next');
+        const images = document.querySelectorAll('.carousel img');
+
+        let currentIndex = 0;
+
+        function showImage(index) {
+            currentIndex = (index + images.length) % images.length;
+            const offset = -currentIndex * 100;
+            carousel.style.transform = `translateX(${offset}%)`;
+        }
+
+        prevBtn.addEventListener('click', () => {
+            showImage(currentIndex - 1);
+        });
+
+        nextBtn.addEventListener('click', () => {
+            showImage(currentIndex + 1);
+        });
+
+        // 自動切換功能
+        setInterval(() => {
+            showImage(currentIndex + 1);
+        }, 5000); // 每5秒切換一次圖片
+    </script>
+</body>
+</html>
